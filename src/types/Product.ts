@@ -5,8 +5,6 @@ export default interface Product {
     image?: string
     price: number
     discount?: number
-    rate: number
-    opinions?: number
     categoryID?: number
     
 }

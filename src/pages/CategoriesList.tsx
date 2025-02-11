@@ -64,6 +64,7 @@ function CategoriesList() {
             <th scope="col" className="px-6 py-3">
               Nombre
             </th>
+            
           </tr>
         </thead>
         <tbody>
