@@ -1,22 +1,37 @@
 import { useEffect, useState } from 'react'
 import ErrorAlert from '../components/ErrorAlert'
-import { getOffers } from '../services/offerService'
-import { Link } from 'react-router-dom'
 import Product from '../types/Product'
 import ProductCard from '../components/ProductCard'
-import { ProductTestArray } from '../utils/testArrays/ProductsTestArray'
 import ProductService from '../services/productService'
-import { CursorProgressContext } from '../contexts/cursorProgressContext'
+import toast, { Toaster } from 'react-hot-toast'
+
 
 
 function ProductList() {
   const [products, setProducts] = useState<Product[]>([])
+  let productsAPI : Product[] = []
   const [errorMessage, setErrorMessage] = useState('')
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    ProductService.getAll().then(setProducts).catch().finally(()=>setLoading(false))
+    ProductService.getAll()
+    .then(
+      products=>{
+      let index = 0
+      const interval = setInterval(()=>{
+        if(index>=products.length-1)clearInterval(interval)
+        setProducts(prev=>[...prev,products[index]])
+        index++
+      },200)
+  })
+    .catch(e=>toast.error(e.status+" "+e.message))
+    .finally(()=>{setLoading(false)})
   }, [])
+
+  
+
+
+
 
   if (loading) return <div className='flex mx-auto justify-center'>
     <div role="status">
@@ -25,11 +40,10 @@ function ProductList() {
     </div>
   </div>
 
-
   return <>
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 p-4">
-      <ErrorAlert>{errorMessage}</ErrorAlert>
-      {products.map((product=><ProductCard key={product.id} product={product}/>))}
+      <Toaster position='top-center'/>
+      {products?.map((product,index) => <ProductCard key={index} product={product}/>)}
     </div>
     
   </>

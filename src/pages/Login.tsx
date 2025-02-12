@@ -3,6 +3,7 @@ import { CursorProgressContext } from '../contexts/cursorProgressContext'
 import { Link } from 'react-router-dom'
 import AuthService from '../services/authService'
 import toast, { Toaster } from 'react-hot-toast'
+import { HttpException } from '../exceptions/HttpExcepction'
 
 function Login() {
 
@@ -12,10 +13,10 @@ function Login() {
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
     setCursorProgress(true)
-    await AuthService.loginUser(form.email,form.password).then(response=>{
-      (response.status==201)?toast.success(response.statusText):toast.error(response.statusText)}).
-      catch((error)=>console.log(error)).
-      finally(()=>setCursorProgress(false))
+    await AuthService.loginUser(form.email,form.password)
+      .then(e=>{toast.success(e.message)})
+      .catch(e=>toast.error(e.status+" "+e.message))
+      .finally(()=>setCursorProgress(false))
   }
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
