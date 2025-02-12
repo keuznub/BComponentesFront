@@ -5,6 +5,8 @@ import { Link } from 'react-router-dom'
 import Product from '../types/Product'
 import ProductCard from '../components/ProductCard'
 import { ProductTestArray } from '../utils/testArrays/ProductsTestArray'
+import ProductService from '../services/productService'
+import { CursorProgressContext } from '../contexts/cursorProgressContext'
 
 
 function ProductList() {
@@ -13,18 +15,7 @@ function ProductList() {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    async function call() {
-      try {
-        //await getProducts().then(setProducts).catch(setErrorMessage)
-        setProducts(ProductTestArray)
-      } catch (error) {
-        const msg = error instanceof Error ? error.message : 'Error desconocido'
-        //setMessage(msg)
-      } finally {
-        setLoading(false)
-      }
-    }
-    call()
+    ProductService.getAll().then(setProducts).catch().finally(()=>setLoading(false))
   }, [])
 
   if (loading) return <div className='flex mx-auto justify-center'>

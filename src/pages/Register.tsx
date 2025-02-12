@@ -1,7 +1,7 @@
 import { ChangeEvent, FormEvent, useContext, useState } from 'react'
 import ErrorAlert from '../components/ErrorAlert'
-import { registerUser } from '../services/authService'
 import { CursorProgressContext } from '../contexts/cursorProgressContext'
+import AuthService from '../services/authService'
 
 function Register() {
   
@@ -23,7 +23,7 @@ function Register() {
     setCursorProgress(true)
     // mensaje por post al api del backend
     try {
-      await registerUser(form.name, form.email, form.password, form.aceptNotifications)
+      await AuthService.registerUser(form.name, form.email, form.password, form.aceptNotifications)
       console.log('register successfull')
       setMessage('Register successfull')
       // Redirigir a otra pagina (ofertas)

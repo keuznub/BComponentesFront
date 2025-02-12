@@ -1,5 +1,5 @@
 import './App.css'
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 import Login from './pages/Login'
 import Register from './pages/Register'
 import Layout from './layout/Layout'
@@ -17,7 +17,8 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Layout />}>
-            <Route path="login" index element={<Login />} />
+            <Route index element={<Navigate to={"login"} />} />
+            <Route path="login" element={<Login />} />
             <Route path="products" element={<ProductList />} />
             <Route path="register" element={<Register />} />
             <Route path="products/:id" element={<ProductDetail />} />
