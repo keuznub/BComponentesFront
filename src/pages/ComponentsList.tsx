@@ -1,35 +1,22 @@
 import { useEffect, useState } from 'react'
-import ErrorAlert from '../components/ErrorAlert'
-import Product from '../types/Product'
 import ProductCard from '../components/ProductCard'
 import ProductService from '../services/productService'
 import toast, { Toaster } from 'react-hot-toast'
+import { Product } from '../models/Product'
 
 
 
 function ProductList() {
   const [products, setProducts] = useState<Product[]>([])
-  let productsAPI : Product[] = []
-  const [errorMessage, setErrorMessage] = useState('')
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     ProductService.getAll()
-    .then(
-      products=>{
-      let index = 0
-      const interval = setInterval(()=>{
-        if(index>=products.length-1)clearInterval(interval)
-        setProducts(prev=>[...prev,products[index]])
-        index++
-      },200)
-  })
+    .then(setProducts)
     .catch(e=>toast.error(e.status+" "+e.message))
-    .finally(()=>{setLoading(false)})
+    .finally(()=>{setLoading(false);
+    })
   }, [])
-
-  
-
 
 
 
@@ -42,7 +29,6 @@ function ProductList() {
 
   return <>
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 p-4">
-      <Toaster position='top-center'/>
       {products?.map((product,index) => <ProductCard key={index} product={product}/>)}
     </div>
     

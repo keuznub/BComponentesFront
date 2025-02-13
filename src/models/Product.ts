@@ -1,9 +1,13 @@
+import Rate from "./Rate";
+
 export interface Product {
-    id: number;
+    id?: number;
     name: string;
     description?: string;
-    image: String;
+    image: string;
     price: number;
     discount: number;
     idCategory?: number;
+    avgRate? : number;
+    rates? : Rate[];
 }

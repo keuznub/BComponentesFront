@@ -1,7 +1,6 @@
 import { FormEvent, useEffect, useState } from 'react'
 import ErrorAlert from '../components/ErrorAlert'
-import { registerCategory } from '../services/categoryService'
-import { getCategories } from '../services/categoryService'
+
 
 interface Category{
     id: number
@@ -14,30 +13,15 @@ function CategoriesList() {
   const [loading, setLoading] = useState(true)
   const [categoryName,setCategoryName] = useState('')
   
-  async function call() {
-    try {
-      const categoriesList : Category[] = await getCategories()
-      categoriesList.length>0 && setCategories(categoriesList)
-    } catch (error) {
-      const msg = error instanceof Error ? error.message : 'Error desconocido'
-      setMessage(msg)
-    } finally {
-      setLoading(false)
-    }
-  }
 
 
-  useEffect(() => {
-    call()
-  }, [])
-
-  const handleSubmit = async (e: FormEvent) => {
+ const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
     try{
-      await registerCategory(categoryName)
+      //await registerCategory(categoryName)
       console.log('category register successfull')
       setMessage('category register successfull')
-      call()
+
     }catch(error){
       const msg = error instanceof Error ? error.message : 'Error desconocido'
       setMessage(msg)
