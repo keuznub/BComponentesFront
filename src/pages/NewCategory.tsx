@@ -7,15 +7,17 @@ import toast from 'react-hot-toast'
 
 
 function NewCategory() {
+    /*
   const COLORS = {
     gray: 'bg-gray-500',
     red: 'bg-red-500',
     yellow: 'bg-yellow-500'
-    /*
+  
     , 'green', 'blue', 'indigo', 'purple', 'pink', 
     'rose', 'amber', 'lime', 'emerald', 'teal', 'cyan', 'sky', 'violet',
-    'fuchsia'*/
+    'fuchsia'
   }
+    */
 
   const [category, setCategory] = useState<Category>({
     name: ''

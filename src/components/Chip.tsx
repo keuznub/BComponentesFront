@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react'
+import { ReactNode } from 'react'
 
 function Chip({children,color}:{children:ReactNode,color?:string}) {
     return (

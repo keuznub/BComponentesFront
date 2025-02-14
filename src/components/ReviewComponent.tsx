@@ -4,7 +4,7 @@ import Rate from '../models/Rate'
 import imagen from '../assets/react.svg'
 function ReviewComponent({ rate }: { rate: Rate }) {
   useEffect(() => {
-    console.log(rate);
+    
 
   }, [])
   return (

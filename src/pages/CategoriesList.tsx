@@ -1,5 +1,5 @@
-import { FormEvent, useEffect, useState } from 'react'
-import ErrorAlert from '../components/ErrorAlert'
+import {  useEffect, useState } from 'react'
+
 import CategoryService from '../services/categoryService'
 import { Category } from '../models/Category'
 import Chip from '../components/Chip'
@@ -18,11 +18,6 @@ function CategoriesList() {
     .catch()
     .finally(()=>setLoading(false))
   },[])
-
- const handleSubmit = async (e: FormEvent) => {
-    e.preventDefault()
-    
-  }
 
   if (loading) return <div className='flex mx-auto justify-center'>
     <div role="status">

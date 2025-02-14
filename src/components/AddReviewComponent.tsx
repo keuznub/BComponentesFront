@@ -1,12 +1,13 @@
 import {FormEvent, useState } from 'react'
 import Rate from '../models/Rate'
-import { useNavigate, useParams } from 'react-router-dom'
-import fetchAPI from '../services/FetchAPI/fetchAPI'
+import { useNavigate } from 'react-router-dom'
 import RateService from '../services/rateService'
 import toast from 'react-hot-toast'
+import { useAuth } from '../contexts/AuthContext'
 
 function AddReviewComponent({idProduct=-1}:{idProduct?:number}){
     const navigate = useNavigate()
+    const user = useAuth()
     const [rate,setRate] = useState<Rate>({
         idProduct,
         value:0,
@@ -15,6 +16,10 @@ function AddReviewComponent({idProduct=-1}:{idProduct?:number}){
 
     const handleSubmit = (e:FormEvent)=>{
         e.preventDefault()
+        if(!user.isAuthenticated){
+            navigate("/login")
+            return
+        }
         RateService.save(rate).then(e=>{toast.success(e.message);navigate(0)}).catch(e=>toast.error(e.status+" "+e.message))
         console.log(rate);
         

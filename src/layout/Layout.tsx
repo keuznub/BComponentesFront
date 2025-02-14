@@ -1,9 +1,10 @@
-import React, { useContext, useState } from 'react'
+import { useState } from 'react'
 import HeaderComponent from './HeaderComponent'
 import FooterComponent from './FooterComponent'
 import { Outlet } from 'react-router-dom'
 import { CursorProgressContext } from '../contexts/cursorProgressContext'
 import { Toaster } from 'react-hot-toast'
+import OffCanvasLayout from '../components/OffCanvasLayout'
 
 function Layout() {
     const [cursorProgress, setCursorProgress] = useState(false)
@@ -16,6 +17,7 @@ function Layout() {
                     <HeaderComponent />
                 </header>
                 <main className='pt-28 pb-28'>
+                    <OffCanvasLayout/>
                     <Outlet />
                 </main>
                 <footer>

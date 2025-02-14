@@ -1,10 +1,11 @@
 import { ChangeEvent, FormEvent, useContext, useState } from 'react'
-import ErrorAlert from '../components/ErrorAlert'
 import { CursorProgressContext } from '../contexts/cursorProgressContext'
 import AuthService from '../services/authService'
 import { User } from '../models/User'
 import toast from 'react-hot-toast'
 import { useNavigate } from 'react-router-dom'
+import InputComponent from '../components/InputComponent'
+import ButtonComponent from '../components/ButtonComponent'
 
 function Register() {
   
@@ -37,26 +38,10 @@ function Register() {
 
   return <>
     <form className="max-w-sm lg:max-w-lg mx-auto md:grid md:grid-cols-2 gap-x-12 border-1 rounded-2xl bg-zinc-50 dark:bg-zinc-900 p-4 mt-10" onSubmit={handleSubmit}>
-      <div className="mb-5">
-        <label htmlFor="name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nombre:</label>
-        <input id="name" value={user.username} name='username' className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-100 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500" onChange={handleChange} placeholder="Angel" required />
-      </div>
-
-
-      <div className="mb-5 col-span-2">
-        <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>
-        <input type="email" id="email" name='email' value={user.email} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-100 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500" onChange={handleChange} placeholder="name@aprendetu.com" required />
-      </div>
-      <div className="mb-5">
-        <label htmlFor="password" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Password</label>
-        <input type="password" id="password" name='password' value={user.password} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-100 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500" onChange={handleChange} required />
-      </div>
-      <div className="mb-5">
-        <label htmlFor="repeat-password" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Repite Password</label>
-        <input type="password" id="repeat-password" name='repeat-password' className="<bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-100 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500" />
-      </div> 
-      <button type="submit" className="text-white block mx-auto col-span-2 bg-orange-400  focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center ">Registrarse</button>
-
+    <InputComponent name='username' type='text' value={user.username} onChange={handleChange} children="Your username:" required />
+    <InputComponent name='email' type='email' value={user.email} onChange={handleChange} children="Your email:"  placeholder='example@mail.com' required />
+    <InputComponent name='password' type='password' value={user.password} onChange={handleChange} children="Your password:" required />
+    <ButtonComponent type='submit' className='col-span-2'>Register</ButtonComponent>
     </form>
   </>
 }

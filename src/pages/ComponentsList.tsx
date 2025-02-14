@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import ProductCard from '../components/ProductCard'
 import ProductService from '../services/productService'
-import toast, { Toaster } from 'react-hot-toast'
+import toast from 'react-hot-toast'
 import { Product } from '../models/Product'
 
 

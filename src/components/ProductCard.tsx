@@ -17,8 +17,6 @@ function ProductCard({ product }: { product: Product }) {
         const avg = product.rates&&total&&total/product.rates?.length
         setAvgRate(avg||0)
         setTimeout(()=>setVisible(' opacity-100 '),200)
-        
-        
     },[])
 
     const imagen = <img className='p-8 rounded-t-lg w-full h-full object-contain' src={IMAGE_BASE64} alt="" />

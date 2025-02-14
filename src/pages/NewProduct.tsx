@@ -1,4 +1,4 @@
-import { ChangeEvent, DragEvent, DragEventHandler, FormEvent, useContext, useEffect, useState } from 'react'
+import { ChangeEvent, DragEvent, FormEvent, useContext, useEffect, useState } from 'react'
 import { CursorProgressContext } from '../contexts/cursorProgressContext'
 import { Product } from '../models/Product'
 import ProductService from '../services/productService'
@@ -6,7 +6,7 @@ import toast from 'react-hot-toast'
 import { Category } from '../models/Category'
 import CategoryService from '../services/categoryService'
 import Chip from '../components/Chip'
-import { CategoryProduct } from '../models/CategoryProduct'
+
 
 
 function NewProduct() {
