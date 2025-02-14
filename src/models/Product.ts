@@ -7,7 +7,6 @@ export interface Product {
     image: string;
     price: number;
     discount: number;
-    idCategory?: number;
     avgRate? : number;
     rates? : Rate[];
 }

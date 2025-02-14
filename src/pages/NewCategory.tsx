@@ -2,6 +2,8 @@ import { ChangeEvent, FormEvent, useContext, useEffect, useState } from 'react'
 import { CursorProgressContext } from '../contexts/cursorProgressContext'
 import { Category } from '../models/Category'
 import Chip from '../components/Chip'
+import CategoryService from '../services/categoryService'
+import toast from 'react-hot-toast'
 
 
 function NewCategory() {
@@ -31,7 +33,10 @@ function NewCategory() {
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
     setCursorProgress(true)
-
+    CategoryService.save(category)
+    .then(e=>{toast.success(e.message)})
+    .catch(e=>toast.error(e.status+" "+e.message))
+    .finally(()=>setCursorProgress(false))
   }
 
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -47,13 +52,18 @@ function NewCategory() {
       </div>
       <div className="">
         <label htmlFor="color" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Color:</label>
-        <input type="color" name='color' onChange={handleChange}/>
+        <input type="color" name='color' onChange={handleChange} className='h-10' />
       </div>
-
+      {category.color&&category.name&&<div>
+        Preview:
+        <div>
+          <Chip color={category.color}>{category.name}</Chip>
+        </div>
+      </div>}
       <button type="submit" className="mt-10 cursor-pointer text-white bg-orange-700  focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Añadir</button>
 
     </form>
-    {category.color&&<Chip color={category.color}>prueba</Chip>}
+
   </>
 }
 

@@ -3,6 +3,7 @@
 import { Link } from 'react-router-dom'
 import { useEffect, useState } from 'react';
 import { Product } from '../models/Product';
+import Chip from './Chip';
 
 
 
@@ -24,6 +25,9 @@ function ProductCard({ product }: { product: Product }) {
 
     return (
         <Link to={`/products/${product.id}`} className={`w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700 ${visible} transition-opacity duration-1000`}>
+            <div>
+                {product.categories?.map((category,index)=><Chip color={category.color}>{category.name}</Chip>)}
+            </div>
             <div>
                 {imagen}
             </div>
