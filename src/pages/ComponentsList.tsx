@@ -28,7 +28,7 @@ function ProductList() {
   </div>
 
   return <>
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 p-4">
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 place-items-center gap-10 ">
       {products?.map((product,index) => <ProductCard key={index} product={product}/>)}
     </div>
     

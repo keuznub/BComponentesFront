@@ -22,7 +22,7 @@ function ProductCard({ product }: { product: Product }) {
     const imagen = <img className='p-8 rounded-t-lg w-full h-full object-contain' src={IMAGE_BASE64} alt="" />
 
     return (
-        <Link to={`/products/${product.id}`} className={`w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700 ${visible} transition-opacity duration-1000`}>
+        <Link to={`/products/${product.id}`} className={`w-full max-w-sm bg-white/90 border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800/90 dark:border-gray-700/90 ${visible} transition-opacity duration-1000 bg-opacity-50`}>
             <div>
                 {product.categories?.map((category,index)=><Chip color={category.color}>{category.name}</Chip>)}
             </div>

@@ -8,10 +8,10 @@ function ReviewComponent({ rate }: { rate: Rate }) {
 
   }, [])
   return (
-    <div className='border border-lg rounded-2xl flex flex-col p-10'>
-      <div className='flex flex-row gap-x-11'>
+    <div className='border border-lg rounded-2xl flex flex-col p-2 md:p-10'>
+      <div className='flex flex-row gap-x-2 md:gap-x-11'>
         <div className='text-3xl font-bold'>
-          <img src={imagen} alt="imagen" className='object-fill w-20 h-20' />
+          <img src={imagen} alt="imagen" className='object-fill w-10 h-10 rounded-lg' />
         </div>
         <div className='text-3xl font-bold'>
           {rate.user?.username}
@@ -22,7 +22,7 @@ function ReviewComponent({ rate }: { rate: Rate }) {
           </svg>)}
         </div>
       </div>
-      <div className='text-lg'>
+      <div className='text-lg mt-2'>
         {rate.opinion}
       </div>
     </div>

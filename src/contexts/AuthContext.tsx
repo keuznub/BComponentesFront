@@ -1,6 +1,7 @@
 import { createContext, ReactNode, useContext, useEffect, useState } from "react"
 import AuthService from "../services/authService"
 import toast from "react-hot-toast"
+import { Product } from "../models/Product"
 
 interface AuthContextType{
     user: UserPayload | null
@@ -8,11 +9,13 @@ interface AuthContextType{
     isAdmin: boolean
     login: (email:string,password:string)=>Promise<any>
     logout: ()=>Promise<any>
+    
 }
 
 interface UserPayload{
     id:number,
     role:string
+    
 }
 
 const AuthContext = createContext<AuthContextType|null>(null)
@@ -20,6 +23,7 @@ const AuthContext = createContext<AuthContextType|null>(null)
 
 export function AuthProvider({children}:{children:ReactNode}){
     const [user,setUser] = useState<UserPayload | null>(null)
+    
     useEffect(()=>{
         
     },[])

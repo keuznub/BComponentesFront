@@ -6,6 +6,8 @@ import toast from 'react-hot-toast'
 import { Category } from '../models/Category'
 import CategoryService from '../services/categoryService'
 import Chip from '../components/Chip'
+import InputComponent from '../components/InputComponent'
+import ButtonComponent from '../components/ButtonComponent'
 
 
 
@@ -80,7 +82,7 @@ function NewProduct() {
         <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2" />
       </svg>
       <p className="mb-2 text-sm text-gray-500 dark:text-gray-400"><span className="font-semibold">Click to upload</span></p>
-      <p className="text-xs text-gray-500 dark:text-gray-400">PNG</p>
+      <p className="text-xs text-gray-500 dark:text-gray-400">PNG, JPG</p>
     </div>
   </>
 
@@ -115,18 +117,12 @@ function NewProduct() {
     <form className="max-w-md lg:max-w-3xl mx-auto gap-x-12 grid grid-cols-2 gap-y-10" onSubmit={handleSubmit} onDrop={e => { e.preventDefault(); e.stopPropagation() }} >
 
       <div className='flex flex-col'>
-        <div className="">
-          <label htmlFor="name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Name:</label>
-          <input id="name" value={product.name} name='name' className="shadow-xs bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-xs-light" onChange={handleChange} placeholder="" required />
-        </div>
+        <InputComponent name='name' type='text' value={product.name} onChange={handleChange} children="Name:" required className='text-start'/>
         <div className="">
           <label htmlFor="description" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Description</label>
           <textarea id="description" name='description' rows={4} value={product.description} className="shadow-xs bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-xs-light" onChange={handleChange} placeholder="" required />
         </div>
-        <div className="">
-          <label htmlFor="price" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Price:</label>
-          <input id="price" value={product.price} type='number' name='price' className="shadow-xs bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-xs-light" onChange={handleChange} placeholder="" required />
-        </div>
+        <InputComponent name='price' type='number' value={product.price} onChange={handleChange} children="Price:" required className='text-start'/>
         <div className="">
           <label htmlFor="idCategory" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Categories</label>
           <select id="idCategory" value={""} onChange={handleSelectChange} name='idCategory' className="mb-5 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500">
@@ -137,7 +133,7 @@ function NewProduct() {
         </div>
       </div>
       <div className='flex flex-col mt-4'>
-        <label htmlFor="dropzone-file">Imagen:</label>
+        <label htmlFor="dropzone-file">Image:</label>
         <div className="flex items-center justify-center w-full" onDrop={handleImageUploadDrag}>
           <label htmlFor="dropzone-file" className="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-gray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
             {(image) ? <img src={URL.createObjectURL(image)} className='object-fill' alt='imagenProduct' /> : placeHolder}
@@ -145,7 +141,7 @@ function NewProduct() {
           </label>
         </div>
       </div>
-      <button type="submit" className="mt-10 col-span-2 cursor-pointer text-white bg-orange-700  focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Añadir</button>
+      <ButtonComponent type='submit' className='col-span-2'>Add Product</ButtonComponent>
       <div>
 
       </div>
