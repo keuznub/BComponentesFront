@@ -7,7 +7,7 @@ import ButtonComponent from '../components/ButtonComponent'
 
 function Login() {
 
-  const [form, setForm] = useState({ email: '', password: '' })
+  const [form, setForm] = useState({ email: 'admin@admin.com', password: 'admin' })
   const {setCursorProgress } = useContext(CursorProgressContext)
   const navigate = useNavigate()
   const user = useAuth()
@@ -27,13 +27,13 @@ function Login() {
 
 
   return (
-    <form className="max-w-sm mx-auto min-w-sm p-4 border-1 rounded-2xl bg-zinc-50 dark:bg-zinc-900  mt-36" onSubmit={handleSubmit}>
+    <form className="max-w-sm mx-auto p-4 border-1 rounded-2xl bg-zinc-50 dark:bg-zinc-900  mt-36" onSubmit={handleSubmit}>
       <InputComponent name='email' type='email' value={form.email} onChange={handleChange} children="Your email:" placeholder='example@mail.com' required />
-      <InputComponent name='password' type='password' value={form.password} onChange={handleChange} children="Your password:" required />
+      <InputComponent name='password' type='password' value={form.password} onChange={handleChange} children="Your password:" className='' required />
       <Link to={"/register/update"} className='text-sm hover:text-blue-800 font-light italic'>Forgot password?</Link>
-      <div className='flex justify-between'>
+      <div className='flex flex-row'>
         <ButtonComponent type='submit' className='mx-auto'>Login</ButtonComponent>
-        <Link to="/register" type="submit" className="text-white bg-orange-700  hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-orange-600 dark:hover:bg-orange-700 dark:focus:ring-blue-800 mx-auto">Sign Up</Link>
+        <Link to="/register" type="submit" className="mx-auto font-bold bg-orange-500 hover:bg-orange-600 cursor-pointer text-gray-900 text-sm rounded-lg p-2.5 dark:text-white">Sign Up</Link>
       </div>
     </form>
 

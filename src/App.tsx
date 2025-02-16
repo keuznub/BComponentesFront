@@ -9,6 +9,8 @@ import ProductDetail from './pages/ProductDetail'
 import NewProduct from './pages/NewProduct'
 import NewCategory from './pages/NewCategory'
 import ForgotPassword from './pages/ForgotPassword'
+import NewOrder from './pages/NewOrder'
+import Profile from './pages/Profile'
 
 function App() {
 
@@ -26,6 +28,8 @@ function App() {
             <Route path="categories" element={<CategoriesList />} />
             <Route path="categories/new" element={<NewCategory />} />
             <Route path="register/update" element={<ForgotPassword />} />
+            <Route path="orders/new" element={<NewOrder />} />
+            <Route path="users/:id" element={<Profile />} />
           </Route>
         </Routes>
       </BrowserRouter>
