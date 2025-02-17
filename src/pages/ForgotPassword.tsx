@@ -1,8 +1,9 @@
 import { ChangeEvent, FormEvent, useContext, useState } from 'react'
-import { CursorProgressContext } from '../contexts/cursorProgressContext'
+import { CursorProgressContext } from '../contexts/CursorProgressContext'
 import InputComponent from '../components/InputComponent'
 import ButtonComponent from '../components/ButtonComponent'
 import { User } from '../models/User'
+import toast from 'react-hot-toast'
 
 function ForgotPassword() {
   
@@ -20,17 +21,8 @@ function ForgotPassword() {
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
     setCursorProgress(true)
-    // mensaje por post al api del backend
-    try {
-      //await updateUser(form.email, form.password, form.aceptNotifications)
-
-      // Redirigir a otra pagina (ofertas)
-    } catch (error) {
-      console.log(error);
-      const msg = error instanceof Error ? error.message : 'Error desconocido'
-    }finally{
-      setCursorProgress(false)
-    }
+    toast.loading("Not available yet")
+    setCursorProgress(false)
   }
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {

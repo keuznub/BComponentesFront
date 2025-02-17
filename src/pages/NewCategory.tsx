@@ -1,5 +1,5 @@
-import { ChangeEvent, FormEvent, useContext, useEffect, useState } from 'react'
-import { CursorProgressContext } from '../contexts/cursorProgressContext'
+import { ChangeEvent, FormEvent, useContext, useState } from 'react'
+import { CursorProgressContext } from '../contexts/CursorProgressContext'
 import { Category } from '../models/Category'
 import Chip from '../components/Chip'
 import CategoryService from '../services/categoryService'
@@ -23,13 +23,6 @@ function NewCategory() {
     name: ''
   })
   const { setCursorProgress } = useContext(CursorProgressContext)
-
-
-
-
-  useEffect(() => {
-
-  }, [category.color])
 
 
   const handleSubmit = async (e: FormEvent) => {

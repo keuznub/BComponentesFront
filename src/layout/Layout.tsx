@@ -2,7 +2,7 @@ import { useState } from 'react'
 import HeaderComponent from './HeaderComponent'
 import FooterComponent from './FooterComponent'
 import { Outlet } from 'react-router-dom'
-import { CursorProgressContext } from '../contexts/cursorProgressContext'
+import { CursorProgressContext } from '../contexts/CursorProgressContext'
 import { Toaster } from 'react-hot-toast'
 import OffCanvasLayout from '../components/OffCanvasLayout'
 

@@ -1,5 +1,5 @@
 import { ChangeEvent, DragEvent, FormEvent, useContext, useEffect, useState } from 'react'
-import { CursorProgressContext } from '../contexts/cursorProgressContext'
+import { CursorProgressContext } from '../contexts/CursorProgressContext'
 import { Product } from '../models/Product'
 import ProductService from '../services/productService'
 import toast from 'react-hot-toast'
@@ -38,9 +38,8 @@ function NewProduct() {
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
     setCursorProgress(true)
-    ProductService.save({ ...product, price: Number(product.price)},productCategories).then(e => { toast.success(e.message) }).catch(e => toast.error(e.status + " " + e.message))
+    ProductService.save({ ...product, price: Number(product.price)},productCategories).then(e => { toast.success(e.message) }).catch(e => toast.error(e.status + " " + e.message)).finally(()=>setCursorProgress(false))
     
-    console.log(product);
 
   }
 

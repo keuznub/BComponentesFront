@@ -1,9 +1,9 @@
 import { Link } from 'react-router-dom'
 import img from '../assets/shoppingcart_80945.svg'
 import { useCart } from '../contexts/CartContext'
-import { Product } from '../models/Product'
+
 import CartElement from './CartElement'
-import ButtonComponent from './ButtonComponent'
+
 import { useAuth } from '../contexts/AuthContext'
 function OffCanvasLayout() {
     const cart = useCart()

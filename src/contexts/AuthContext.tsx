@@ -1,7 +1,7 @@
 import { createContext, ReactNode, useContext, useEffect, useState } from "react"
 import AuthService from "../services/authService"
 import toast from "react-hot-toast"
-import { Product } from "../models/Product"
+
 
 interface AuthContextType{
     user: UserPayload | null

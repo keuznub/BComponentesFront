@@ -1,4 +1,4 @@
-import React from 'react'
+
 import { Product } from '../models/Product'
 import { useCart } from '../contexts/CartContext'
 import toast from 'react-hot-toast'

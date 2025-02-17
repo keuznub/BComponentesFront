@@ -1,5 +1,5 @@
 import { ChangeEvent, FormEvent, useContext, useState } from 'react'
-import { CursorProgressContext } from '../contexts/cursorProgressContext'
+import { CursorProgressContext } from '../contexts/CursorProgressContext'
 import AuthService from '../services/authService'
 import { User } from '../models/User'
 import toast from 'react-hot-toast'
