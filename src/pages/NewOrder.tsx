@@ -1,5 +1,4 @@
-import React from 'react'
-import CartElement from '../components/CartElement'
+
 import { useCart } from '../contexts/CartContext'
 import BasketElement from '../components/BasketElement'
 import ButtonComponent from '../components/ButtonComponent'

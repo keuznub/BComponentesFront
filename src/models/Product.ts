@@ -1,3 +1,4 @@
+import { Category } from "./Category";
 import Rate from "./Rate";
 
 export interface Product {
@@ -9,4 +10,5 @@ export interface Product {
     discount: number;
     avgRate? : number;
     rates? : Rate[];
+    categoryProduct?: {category: Category}[]
 }

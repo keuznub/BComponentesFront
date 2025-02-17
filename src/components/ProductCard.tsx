@@ -19,12 +19,16 @@ function ProductCard({ product }: { product: Product }) {
         setTimeout(()=>setVisible(' opacity-100 '),200)
     },[])
 
+    useEffect(()=>{
+        console.log(product);
+    },[])
+
     const imagen = <img className='p-8 rounded-t-lg w-full h-full object-contain' src={IMAGE_BASE64} alt="" />
 
     return (
         <Link to={`/products/${product.id}`} className={`w-full max-w-sm bg-white/90 border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800/90 dark:border-gray-700/90 ${visible} transition-opacity duration-1000 bg-opacity-50`}>
-            <div>
-                {product.categories?.map((category,index)=><Chip color={category.color}>{category.name}</Chip>)}
+            <div className='flex flex-row place-content-center'>
+                {product.categoryProduct?.map((c,index)=><Chip key={index} color={c.category.color}>{c.category.name}</Chip>)}
             </div>
             <div>
                 {imagen}

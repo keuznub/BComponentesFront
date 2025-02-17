@@ -38,7 +38,7 @@ function NewProduct() {
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
     setCursorProgress(true)
-    ProductService.save({ ...product, price: Number(product.price)},{...productCategories}).then(e => { toast.success(e.message) }).catch(e => toast.error(e.status + " " + e.message))
+    ProductService.save({ ...product, price: Number(product.price)},productCategories).then(e => { toast.success(e.message) }).catch(e => toast.error(e.status + " " + e.message))
     
     console.log(product);
 
