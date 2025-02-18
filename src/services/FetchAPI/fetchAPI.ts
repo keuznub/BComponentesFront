@@ -1,6 +1,6 @@
 import { HttpException } from "../../exceptions/HttpExcepction"
 
-const API_URL = import.meta.env.VITE_BASE_URL+"api/"
+const API_URL = import.meta.env.VITE_BACKEND_URL+"/api/"
 export const fetchAPI = async (endpoint:string,method:"GET"|"POST"|"PUT"|"DELETE",body?:any)=>{
     const response = await fetch(API_URL+endpoint,{
         method: method,
