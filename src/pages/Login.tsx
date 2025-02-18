@@ -1,5 +1,5 @@
 import { ChangeEvent, FormEvent, useContext, useState } from 'react'
-import { Link/*useNavigate*/ } from 'react-router-dom'
+import { Link,useNavigate } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
 import InputComponent from '../components/InputComponent'
 import ButtonComponent from '../components/ButtonComponent'
@@ -9,14 +9,14 @@ function Login() {
 
   const [form, setForm] = useState({ email: 'admin@admin.com', password: 'admin' })
   const {setCursorProgress } = useContext(CursorProgressContext)
-  //const navigate = useNavigate()
+  const navigate = useNavigate()
   const user = useAuth()
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
     setCursorProgress(true)
 
     user.login(form.email, form.password)
-      //.then(() => { navigate("/products") })
+      .then(() => { navigate("/products") })
       .finally(() => { setCursorProgress(false) })
   }
 
