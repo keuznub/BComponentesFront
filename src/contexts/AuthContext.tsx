@@ -29,10 +29,10 @@ export function AuthProvider({children}:{children:ReactNode}){
     },[])
 
     const login = async (email: string, password:string)=>{
-        await AuthService.loginUser(email,password).then(e=>{setUser(e);toast.success(e.message)}).catch(e=>toast.error(e.message))       
+        AuthService.loginUser(email,password).then(e=>{setUser(e);toast.success(e.message)}).catch(e=>toast.error(e.message))       
     }
     const logout = async ()=>{
-        await AuthService.logoutUser().then(()=>toast.success("Logged out")).then(()=>setUser(null))
+        AuthService.logoutUser().then(()=>toast.success("Logged out")).then(()=>setUser(null))
     }
 
     return <AuthContext.Provider value={{user,login,logout,isAuthenticated:!!user, isAdmin:user?.role==="admin"}}>
