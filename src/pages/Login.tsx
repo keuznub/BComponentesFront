@@ -16,7 +16,7 @@ function Login() {
     setCursorProgress(true)
 
     user.login(form.email, form.password)
-      .then(() => { navigate("/products") })
+      //.then(() => { navigate("/products") })
       .finally(() => { setCursorProgress(false) })
   }
 
