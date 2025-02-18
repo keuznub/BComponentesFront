@@ -11,7 +11,6 @@ import NewCategory from './pages/NewCategory'
 import ForgotPassword from './pages/ForgotPassword'
 import NewOrder from './pages/NewOrder'
 import Profile from './pages/Profile'
-import { AuthProvider } from './contexts/AuthContext'
 
 function App() {
 
