@@ -11,6 +11,7 @@ import NewCategory from './pages/NewCategory'
 import ForgotPassword from './pages/ForgotPassword'
 import NewOrder from './pages/NewOrder'
 import Profile from './pages/Profile'
+import { AuthProvider } from './contexts/AuthContext'
 
 function App() {
 
@@ -18,6 +19,7 @@ function App() {
     <>
       <BrowserRouter>
         <Routes>
+          
           <Route path="/" element={<Layout />}>
             <Route index element={<Navigate to={"login"} />} />
             <Route path="login" element={<Login />} />
@@ -31,7 +33,9 @@ function App() {
             <Route path="orders/new" element={<NewOrder />} />
             <Route path="users/:id" element={<Profile />} />
           </Route>
+          
         </Routes>
+        
       </BrowserRouter>
     </>
   )
