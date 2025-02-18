@@ -12,7 +12,7 @@ function Profile() {
   const {id} = useParams()
 
   useEffect(() => {
-    UserService.getById(Number(id)).then(setUser).catch(e=>toast.success(e.message)).finally(()=>setLoading(false))
+    UserService.getById(Number(id)).then(setUser).catch(e=>toast.error(e.message)).finally(()=>setLoading(false))
   }, [])
 
   if (loading) return <div className='flex mx-auto justify-center'>
