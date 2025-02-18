@@ -1,8 +1,8 @@
 import { HttpException } from "../../exceptions/HttpExcepction"
 
-const BASE_URL = "http://localhost:3000/api/"
+const API_URL = import.meta.env.BASE_URL+"/api/"
 export const fetchAPI = async (endpoint:string,method:"GET"|"POST"|"PUT"|"DELETE",body?:any)=>{
-    const response = await fetch(BASE_URL+endpoint,{
+    const response = await fetch(API_URL+endpoint,{
         method: method,
         headers: {
             'Content-Type': 'application/json'
