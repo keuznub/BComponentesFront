@@ -9,7 +9,7 @@ function Login() {
 
   const [form, setForm] = useState({ email: 'admin@admin.com', password: 'admin' })
   const {setCursorProgress } = useContext(CursorProgressContext)
-  const navigate = useNavigate()
+  //const navigate = useNavigate()
   const user = useAuth()
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
