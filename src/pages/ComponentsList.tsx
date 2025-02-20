@@ -10,7 +10,7 @@ import { useSearchParams } from 'react-router-dom'
 function ProductList() {
   const [products, setProducts] = useState<Product[]>([])
   const [loading, setLoading] = useState(true)
-  const [queryParams, setQueryParams] = useSearchParams()
+  const [queryParams] = useSearchParams()
   const name = queryParams.get("name") || ""
   const page = queryParams.get("page") || 0
   
