@@ -1,19 +1,51 @@
-import { useEffect, useState } from 'react'
+import { ChangeEvent, FormEvent, useEffect, useState } from 'react'
 import { User } from '../models/User'
-import { useParams } from 'react-router-dom'
+import {  useNavigate, useParams } from 'react-router-dom'
 import UserService from '../services/userService'
 import toast from 'react-hot-toast'
+import InputComponent from '../components/InputComponent'
+import ButtonComponent from '../components/ButtonComponent'
+import { useAuth } from '../contexts/AuthContext'
 
 
 function Profile() {
-
+  const [initialUser,setInitialUser] = useState<User>()
   const [user, setUser] = useState<User>()
+  const [updateMode, setUpdateMode] = useState<Boolean>(false)
   const [loading, setLoading] = useState(true)
+  const userAuth = useAuth()
   const {id} = useParams()
+  const navigate = useNavigate()
+    const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+      if(!user) return
+      const { value, name } = e.target
+      setUser({ ...user, [name]: value})
+    }
+  
 
   useEffect(() => {
-    UserService.getById(Number(id)).then(setUser).catch(e=>toast.error(e.message)).finally(()=>setLoading(false))
+    UserService.getById(Number(id)).then(e=>{setUser(e);setInitialUser(e)}).catch(e=>toast.error(e.message)).finally(()=>setLoading(false))
+
   }, [])
+
+
+  const handleOnSubmit = ((e:FormEvent)=>{
+    e.preventDefault()
+    if(!user?.id) return
+    UserService.update(user?.id,user)
+    .then(e => {toast.success(e.status + " " + e.message); 
+      setInitialUser(user);
+      if(user.role!=initialUser?.role){
+        userAuth.logout()}
+        navigate("/login")
+      })
+    .catch(e =>{toast.error(e.status + " " + e.message); setUser(initialUser)})
+    .finally(()=>setUpdateMode(false))
+  })
+
+  
+
+
 
   if (loading) return <div className='flex mx-auto justify-center'>
     <div role="status">
@@ -22,29 +54,25 @@ function Profile() {
     </div>
   </div>
 
+  const updateModeButtons = <div className='flex flex-row justify-around'>
+      <ButtonComponent type='button' children="Cancel" onClick={()=>setUpdateMode(false)}/>
+      <ButtonComponent type='submit' children="Send Update"/>
+  </div>
+
 
   return <>
 
-    <div className="w-full mx-auto max-w-lg p-4 flex flex-col gap-2 bg-white border border-gray-200 rounded-lg shadow-sm sm:p-6 md:p-8 dark:bg-gray-800 dark:border-gray-700">
+    <form className="w-full mx-auto max-w-lg p-4 flex flex-col gap-2 bg-white border border-gray-200 rounded-lg shadow-sm sm:p-6 md:p-8 dark:bg-gray-800 dark:border-gray-700" onSubmit={handleOnSubmit}>
       <h5 className="text-xl font-medium mb-5 text-gray-900 dark:text-white">User Profile</h5>
-      <div>
-        <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Username:</label>
-        <label className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white">
-          {user?.username}</label>
-      </div>
-      <div>
-        <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email:</label>
-        <label className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white">
-          {user?.email}</label>
-      </div>
-      <div>
-        <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Role:</label>
-        <label className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white">
-          {user?.role}</label>
-      </div>
-
-
-    </div>
+      
+        <InputComponent name='username' value={user?.username} type='text' onChange={handleChange} children="Username" className='text-start' disabled={!updateMode}/>
+        <InputComponent name='email' value={user?.email} type='text' onChange={handleChange}  children="Email" className='text-start' disabled={!updateMode}/>
+      {(user?.role||userAuth.isAdmin)&&
+        <InputComponent name='role' value={user?.role} type='text' onChange={handleChange}  children="Role" className='text-start' disabled={userAuth.isAdmin?!updateMode:true}/>
+      }
+        {updateMode?updateModeButtons:<ButtonComponent type='button' children="Update" onClick={()=>setUpdateMode(true)}/>}
+    </form>
+      
 
   </>
 }

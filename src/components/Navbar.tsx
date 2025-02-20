@@ -33,7 +33,7 @@ function Navbar() {
         <div className="items-center justify-between hidden w-full md:flex md:w-auto md:order-1" id="navbar-sticky">
           <ul className="flex flex-col font-medium border border-gray-100 rounded-lg bg-orange-500 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0  dark:border-gray-700">
             <li>
-              <Link to="/login" className={LinkClassName}>Login</Link>
+            {!user.isAuthenticated&&<Link to="/login" className={LinkClassName}>Login</Link>}
             </li>
             <li>
               <Link to="/products" className={LinkClassName}>Productos</Link>

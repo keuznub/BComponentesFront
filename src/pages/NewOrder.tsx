@@ -14,7 +14,7 @@ function NewOrder() {
             {cart.products?.map(product=><BasketElement cartElement={product}/>)}
         </div>
         <hr className='border-b-2 my-4 col-span-4' />
-        <span className='text-lg'>Total:  <span className='font-bold'>{cart.products?.reduce((acu,prod)=>acu+(prod.product.price*prod.quantity),0)}€</span></span>
+        <span className='text-lg'>Total:  <span className='font-bold'>{cart.products?.reduce((acu,prod)=>acu+(prod.product.price*(1-prod.product.discount/100)*prod.quantity),0).toFixed(2)}€</span></span>
         <ButtonComponent type='submit' children="Pay" className='ms-10'/>
       </div>
     </div>

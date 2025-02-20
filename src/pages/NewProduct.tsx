@@ -38,7 +38,7 @@ function NewProduct() {
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
     setCursorProgress(true)
-    ProductService.save({ ...product, price: Number(product.price)},productCategories).then(e => { toast.success(e.message) }).catch(e => toast.error(e.status + " " + e.message)).finally(()=>setCursorProgress(false))
+    ProductService.save({ ...product, price: +product.price,discount:+product.discount},productCategories).then(e => { toast.success(e.message) }).catch(e => toast.error(e.status + " " + e.message)).finally(()=>setCursorProgress(false))
     
 
   }
@@ -113,15 +113,16 @@ function NewProduct() {
 
   return <>
 
-    <form className="max-w-md lg:max-w-3xl mx-auto gap-x-12 grid grid-cols-2 gap-y-10" onSubmit={handleSubmit} onDrop={e => { e.preventDefault(); e.stopPropagation() }} >
+    <form className="max-w-lg lg:max-w-3xl mx-auto gap-x-12 grid grid-cols-1 md:grid-cols-2 gap-y-10" onSubmit={handleSubmit} onDrop={e => { e.preventDefault(); e.stopPropagation() }} >
 
-      <div className='flex flex-col'>
+      <div className='flex flex-col w-full'>
         <InputComponent name='name' type='text' value={product.name} onChange={handleChange} children="Name:" required className='text-start'/>
         <div className="">
           <label htmlFor="description" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Description</label>
           <textarea id="description" name='description' rows={4} value={product.description} className="shadow-xs bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-xs-light" onChange={handleChange} placeholder="" required />
         </div>
         <InputComponent name='price' type='number' value={product.price} onChange={handleChange} children="Price:" required className='text-start'/>
+        <InputComponent name='discount' type='number' value={product.discount} onChange={handleChange} children="Discount:" required className='text-start'/>
         <div className="">
           <label htmlFor="idCategory" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Categories</label>
           <select id="idCategory" value={""} onChange={handleSelectChange} name='idCategory' className="mb-5 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500">
@@ -130,8 +131,10 @@ function NewProduct() {
           </select>
           {productCategories&&productCategories.map(id=><button key={id} type='button' className='cursor-pointer' onClick={()=>handleChipClick(id)}><Chip color={categories.find(c=>c.id==id)?.color}>{categories.find(c=>c.id==id)?.name}</Chip></button>)}
         </div>
+ 
       </div>
-      <div className='flex flex-col mt-4'>
+
+      <div className='flex flex-col mt-4 w-full'>
         <label htmlFor="dropzone-file">Image:</label>
         <div className="flex items-center justify-center w-full" onDrop={handleImageUploadDrag}>
           <label htmlFor="dropzone-file" className="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-gray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
@@ -139,11 +142,10 @@ function NewProduct() {
             <input id="dropzone-file" type="file" className="hidden" onChange={handleImageUpload} onDrop={handleImageUploadDrag} />
           </label>
         </div>
+       
       </div>
-      <ButtonComponent type='submit' className='col-span-2'>Add Product</ButtonComponent>
-      <div>
+      <ButtonComponent type='submit' className='md:col-span-2'>Add Product</ButtonComponent>
 
-      </div>
 
     </form>
   </>

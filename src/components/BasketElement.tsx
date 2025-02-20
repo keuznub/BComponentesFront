@@ -18,7 +18,7 @@ function BasketElement({cartElement}:{cartElement:{product:Product,quantity:numb
                 Units: {cartElement.quantity}
             </div>
             <div className='text-center'>
-                {cartElement.product.price*cartElement.quantity}€
+                {((cartElement.product.price*(1-cartElement.product.discount/100))*cartElement.quantity).toFixed(2)}€
             </div>
             <div className='text-center'>
                 <button onClick={handleOnRemove} type='button' className='bg-blue-200 rounded-2xl'>Borrar</button>

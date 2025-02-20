@@ -4,6 +4,7 @@ import { useAuth } from '../contexts/AuthContext'
 import InputComponent from '../components/InputComponent'
 import ButtonComponent from '../components/ButtonComponent'
 import { CursorProgressContext } from '../contexts/CursorProgressContext'
+import toast from 'react-hot-toast'
 
 function Login() {
 
@@ -17,6 +18,7 @@ function Login() {
 
     user.login(form.email, form.password)
       .then(()=>navigate("/products"))
+      .catch(e=>toast.error(e.status+' '+e.message))
       .finally(() => { setCursorProgress(false) })
   }
 

@@ -15,13 +15,15 @@ function UserDropdown({className}:{className?:string}) {
     useEffect(()=>{
         if(!userAuth?.user?.id) return
         UserService.getById(userAuth?.user?.id).then(setUser).catch(e=>toast.error(e.message))
-    },[])
+    },[userAuth.user])
 
     const handleOnSignOut = async ()=>{
         await userAuth.logout()
         setUser(undefined)
         navigate("/login")
     }
+
+
 
     
     return (

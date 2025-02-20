@@ -3,15 +3,20 @@ import ProductCard from '../components/ProductCard'
 import ProductService from '../services/productService'
 import toast from 'react-hot-toast'
 import { Product } from '../models/Product'
+import { useSearchParams } from 'react-router-dom'
 
 
 
 function ProductList() {
   const [products, setProducts] = useState<Product[]>([])
   const [loading, setLoading] = useState(true)
+  const [queryParams, setQueryParams] = useSearchParams()
+  const name = queryParams.get("name") || ""
+  const page = queryParams.get("page") || 0
+  
 
   useEffect(() => {
-    ProductService.getAll()
+    ProductService.getAll(+page,name)
     .then(setProducts)
     .catch(e=>toast.error(e.status+" "+e.message))
     .finally(()=>{setLoading(false);
@@ -31,7 +36,8 @@ function ProductList() {
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 place-items-center gap-10 ">
       {products?.map((product,index) => <ProductCard key={index} product={product}/>)}
     </div>
-    
+
+
   </>
 }
 
