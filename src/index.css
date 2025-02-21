@@ -1,4 +1,13 @@
+@font-face {
+    font-family: Inter;
+    src: url("assets/fonts/inter/Inter_28pt-Regular.ttf");
+}
 @import "tailwindcss";
+
+@theme{
+    --font-inter: Inter, "sans-serif";
+}
+
 
 
 body{
@@ -7,3 +16,4 @@ body{
 textarea{
     field-sizing: content;
 }
+

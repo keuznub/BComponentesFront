@@ -3,8 +3,9 @@ import ProductCard from '../components/ProductCard'
 import ProductService from '../services/productService'
 import toast from 'react-hot-toast'
 import { Product } from '../models/Product'
-import { useLocation, useSearchParams } from 'react-router-dom'
+import { useLocation, useNavigate, useSearchParams } from 'react-router-dom'
 import PagingNav from '../components/PagingNav'
+import { useAuth } from '../contexts/AuthContext'
 
 
 
@@ -16,15 +17,20 @@ function ProductList() {
   const name = queryParams.get("name") || ""
   const page = queryParams.get("page") || 0
   const location = useLocation()
+  const navigate = useNavigate()
 
   useEffect(() => {
     setLoading(true)
     ProductService.getAll(+page,name)
     .then(e=>{setProducts(e.products),setProductCount(e.count)})
-    .catch(e=>toast.error(e.status+" "+e.message))
+    .catch(e=>{toast.error(e.status+" "+e.message)
+      if(e.status==500||e.status==403){
+        useAuth().logout
+        navigate("/login")
+      }
+    })
     .finally(()=>{setLoading(false);
     })
-    console.log("");
     
   }, [location])
 
@@ -38,9 +44,10 @@ function ProductList() {
   </div>
 
   return <>
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 place-items-center gap-10 ">
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 place-items-center gap-10">
       {products?.map((product,index) => <ProductCard key={index} product={product}/>)}
     </div>
+
     <div className='flex flex-row justify-center mt-8'>
       <PagingNav productCount={productCount}/>
     </div>

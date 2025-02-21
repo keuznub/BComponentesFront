@@ -8,6 +8,7 @@ import CategoryService from '../services/categoryService'
 import Chip from '../components/Chip'
 import InputComponent from '../components/InputComponent'
 import ButtonComponent from '../components/ButtonComponent'
+import { useNavigate } from 'react-router-dom'
 
 
 
@@ -22,7 +23,7 @@ function NewProduct() {
       discount: 0,
     }
   )
-  
+  const navigate = useNavigate()
   const [productCategories,setProductCategories] = useState<number[]>([])
   const [image, setImage] = useState<File | null>()
   const [categories, setCategories] = useState<Category[]>([])
@@ -31,14 +32,17 @@ function NewProduct() {
   useEffect(() => {
     CategoryService.getAll()
       .then(setCategories)
-      .catch(e => toast.error(e.status + " " + e.message))
+      .catch(e =>{toast.error(e.status + " " + e.message); if(e.status==500||e.status==403)navigate("/login")})
   }, [])
 
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
     setCursorProgress(true)
-    ProductService.save({ ...product, price: +product.price,discount:+product.discount},productCategories).then(e => { toast.success(e.message) }).catch(e => toast.error(e.status + " " + e.message)).finally(()=>setCursorProgress(false))
+    ProductService.save({ ...product, price: +product.price,discount:+product.discount},productCategories)
+    .then(e => { toast.success(e.message) })
+    .catch(e => toast.error(e.status + " " + e.message))
+    .finally(()=>setCursorProgress(false))
     
 
   }
@@ -50,7 +54,6 @@ function NewProduct() {
     const reader = new FileReader();
     reader.onloadend = async () => {
       const base64Image = reader.result as string;
-      console.log(base64Image);
       setProduct({ ...product, image: base64Image });
     };
     reader.readAsDataURL(file)
@@ -66,7 +69,6 @@ function NewProduct() {
     const reader = new FileReader();
     reader.onloadend = async () => {
       const base64Image = reader.result as string;
-      console.log(base64Image);
       setProduct({ ...product, image: base64Image });
     };
     reader.readAsDataURL(file)
@@ -106,11 +108,7 @@ function NewProduct() {
     const categoriesIn = productCategories?.filter(c=>c!=id)
     setProductCategories(categoriesIn)
   }
-
-  useEffect(() => {
-    console.log(product);
-  }, [product])
-
+  
   return <>
 
     <form className="max-w-lg lg:max-w-3xl mx-auto gap-x-12 grid grid-cols-1 md:grid-cols-2 gap-y-10" onSubmit={handleSubmit} onDrop={e => { e.preventDefault(); e.stopPropagation() }} >

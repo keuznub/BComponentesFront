@@ -32,7 +32,7 @@ export function AuthProvider({children}:{children:ReactNode}){
     },[])
 
     const autoLogin = ()=>{
-        AuthService.autoLoginUser().then(setUser)
+        AuthService.autoLoginUser().then(setUser).catch(()=>console.debug("No Autologin"));
     }
 
     const login = async (email: string, password:string)=>{

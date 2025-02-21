@@ -24,7 +24,15 @@ function Profile() {
   
 
   useEffect(() => {
-    UserService.getById(Number(id)).then(e=>{setUser(e);setInitialUser(e)}).catch(e=>toast.error(e.message)).finally(()=>setLoading(false))
+    UserService.getById(Number(id))
+    .then(e=>{setUser(e);setInitialUser(e)})
+    .catch(e=>{toast.error(e.message);
+      if(e.status==500||e.status==403){
+        userAuth.logout()
+        navigate("/login")
+        }
+      })
+    .finally(()=>setLoading(false))
 
   }, [])
 

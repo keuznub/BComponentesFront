@@ -6,10 +6,11 @@ interface CartContextType{
     products: CartElement[] | null
     addProduct: (product:Product)=>void
     removeProduct: (product:Product)=>void
+    clearCart: ()=>void
     
 }
 
-interface CartElement{
+export interface CartElement{
     product:Product
     quantity:number
 }
@@ -21,8 +22,14 @@ export function CartProvider({children}:{children:ReactNode}){
     const [products,setProducts] = useState<CartElement[] | null>(null)
     
     useEffect(()=>{
+        if(products) return localStorage.setItem("cart",JSON.stringify(products))
+        const item = localStorage.getItem("cart")
+        if(!item) return
+        const productsStorage = JSON.parse(item)
+        if(!productsStorage) return
+        setProducts(productsStorage)
         
-    },[])
+    },[products])
 
     const addProduct = (product:Product)=>{
         if(!products) return setProducts([{product,quantity:1}])
@@ -39,7 +46,12 @@ export function CartProvider({children}:{children:ReactNode}){
         return setProducts(products.filter(p=>p.product.id!=findProduct.product.id))
     }
 
-    return <CartElement.Provider value={{products,addProduct,removeProduct}}>
+    const clearCart = ()=>{
+        setProducts(null)
+        localStorage.removeItem("cart")
+    }
+
+    return <CartElement.Provider value={{products,addProduct,removeProduct,clearCart}}>
             {children}
     </CartElement.Provider>
 }

@@ -17,7 +17,7 @@ function ProductCard({ product }: { product: Product }) {
         const avg = product.rates&&total&&total/product.rates?.length
         setAvgRate(avg||0)
         setTimeout(()=>setVisible(' opacity-100 '),200)
-        console.log(product);
+      
         
     },[])
 
@@ -45,7 +45,7 @@ function ProductCard({ product }: { product: Product }) {
                     <span className="bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded-sm dark:bg-blue-200 dark:text-blue-800 ms-3">{avgRate}</span>
                 </div>
                 <div className="flex flex-row items-center justify-between">
-                    <span className="text-3xl font-bold text-gray-900 dark:text-white">{(product.price*(1-product.discount/100)).toFixed(2)}€{product.discount?<span className='ms-3 text-gray-500 line-through font-medium'>{product.price}€</span>:""}</span>
+                    <span className="text-3xl font-bold text-gray-900 dark:text-white">{(product.price*(1-product.discount/100)).toFixed(2).replace(".",",")}€{product.discount?<span className='ms-3 text-gray-500 line-through font-medium'>{product.price.toFixed(2).replace(".",",")}€</span>:""}</span>
                     {product.discount?<span className='rounded-lg bg-green-800 font-bold p-2'>{product.discount}%</span>:""}
                     
                 </div>

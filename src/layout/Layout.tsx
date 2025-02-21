@@ -12,7 +12,7 @@ function Layout() {
         <>  
              <CursorProgressContext.Provider value={{cursorProgress, setCursorProgress}}>
                 <Toaster position='top-center'/>
-                <div className={`min-h-screen bg-white dark:bg-gradient-to-b dark:from-zinc-800 dark:to-zinc-950 text-gray-900 dark:text-white ${cursorProgress&&"cursor-progress"}`}>
+                <div className={`min-h-screen font-inter bg-white dark:bg-gradient-to-b dark:from-zinc-800 dark:to-zinc-950 text-gray-900 dark:text-white ${cursorProgress&&"cursor-progress"}`}>
                 <header className=''>
                     <HeaderComponent />
                 </header>

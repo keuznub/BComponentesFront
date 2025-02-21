@@ -47,7 +47,7 @@ function NewCategory() {
       </div>
       <div className="">
         <label htmlFor="color" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Color:</label>
-        <input type="color" name='color' onChange={handleChange} className='h-10' />
+        <input type="color" id='color' name='color' onChange={handleChange} className='h-10' />
       </div>
       {category.color&&category.name&&<div>
         Preview:

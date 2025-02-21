@@ -11,6 +11,7 @@ import NewCategory from './pages/NewCategory'
 import ForgotPassword from './pages/ForgotPassword'
 import NewOrder from './pages/NewOrder'
 import Profile from './pages/Profile'
+import OrderList from './pages/OrderList'
 
 function App() {
 
@@ -30,7 +31,9 @@ function App() {
             <Route path="categories/new" element={<NewCategory />} />
             <Route path="register/update" element={<ForgotPassword />} />
             <Route path="orders/new" element={<NewOrder />} />
+            <Route path="orders" element={<OrderList />} />
             <Route path="users/:id" element={<Profile />} />
+            
           </Route>
           
         </Routes>

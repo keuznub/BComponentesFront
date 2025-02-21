@@ -84,7 +84,7 @@ function ProductDetail() {
         </div>
         <div className='flex flex-col rounded-3xl md:rounded-xl p-5 md:p-8 border-gray-300 border gap-y-5 md:gap-y-8 md:col-span-2 lg:col-auto'>
           <div className='flex flex-row justify-around '>
-            <span className='text-2xl md:text-3xl font-bold'>{finalPrice?.toFixed(2)}€ {product?.discount?<span className='text-gray-500 line-through font-medium'>{product?.price + "€"}</span>:""}</span>
+            <span className='text-2xl md:text-3xl font-bold'>{finalPrice?.toFixed(2).replace(".",",")}€ {product?.discount?<span className='text-gray-500 line-through font-medium'>{product?.price.toFixed(2).replace(".",",") + "€"}</span>:""}</span>
             {product?.discount?discountSpan:""} 
           </div>
           <div className='h-full' />

@@ -2,6 +2,7 @@
 import { Product } from '../models/Product'
 import { useCart } from '../contexts/CartContext'
 import toast from 'react-hot-toast'
+import img from '../assets/rubbish-bin.svg'
 
 function BasketElement({cartElement}:{cartElement:{product:Product,quantity:number}}) {
     const cart = useCart()
@@ -10,8 +11,11 @@ function BasketElement({cartElement}:{cartElement:{product:Product,quantity:numb
         toast.success("Product Removed from cart")
     }
     return (
-        <>
-            <div className='text-center'>
+        <div className='grid grid-cols-5 justify-around'>
+            <div className=''>
+                <img src={cartElement.product.image}  alt="Product Image"  className="h-7"/>
+            </div>
+            <div className='text-start '>
                 {cartElement.product.name}
             </div>
             <div className='text-end me-2'>
@@ -21,9 +25,11 @@ function BasketElement({cartElement}:{cartElement:{product:Product,quantity:numb
                 {((cartElement.product.price*(1-cartElement.product.discount/100))*cartElement.quantity).toFixed(2)}€
             </div>
             <div className='text-center'>
-                <button onClick={handleOnRemove} type='button' className='bg-blue-200 rounded-2xl'>Borrar</button>
+                <button onClick={handleOnRemove} type='button' className='cursor-pointer px-4'>
+                    <img src={img} className='h-7'/>
+                </button>
             </div>
-        </>
+        </div>
     )
 }
 
