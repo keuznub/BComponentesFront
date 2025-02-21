@@ -18,11 +18,24 @@ function ProductList() {
   const page = queryParams.get("page") || 0
   const location = useLocation()
   const navigate = useNavigate()
+  
 
   useEffect(() => {
     setLoading(true)
+    const productsStorage = sessionStorage.getItem(`page=${page}`)
+    if(productsStorage){
+      const productsParsed : {products:Product[], count:number} = JSON.parse(productsStorage)
+      setProducts(productsParsed.products)
+      setProductCount(productsParsed.count)
+      setLoading(false)
+      return
+    }
     ProductService.getAll(+page,name)
-    .then(e=>{setProducts(e.products),setProductCount(e.count)})
+    .then(e=>{
+      setProducts(e.products)
+      setProductCount(e.count)
+      sessionStorage.setItem(`page=${page}`,JSON.stringify(e))
+    })
     .catch(e=>{toast.error(e.status+" "+e.message)
       if(e.status==500||e.status==403){
         useAuth().logout
