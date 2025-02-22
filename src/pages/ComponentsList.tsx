@@ -17,8 +17,8 @@ function ProductList() {
   const [isHidedSearchBar, setIsHidedSearchBar] = useState(false)
   const [productCount,setProductCount] = useState<number>(0)
   const [queryParams] = useSearchParams()
-  const [nameSearch,setNameSearch] = useState("")
-  const [categorySearch,setCategorySearch] = useState("")
+  const [nameSearch] = useState("")
+  const [categorySearch] = useState("")
   const name = queryParams.get("name") || ""
   const page = queryParams.get("page") || 0
   const { scrollY } = useScroll()

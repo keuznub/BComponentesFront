@@ -1,7 +1,7 @@
-import { ChangeEvent, ChangeEventHandler, FormEvent, useState } from "react"
-import { useNavigate } from "react-router-dom"
+import {  ChangeEventHandler } from "react"
 
-function SearchBar({isHided,name,category,handleOnSubmit, onChange}:{isHided:boolean,name?:string,category?:string,handleOnSubmit:()=>void, onChange?:ChangeEventHandler}) {
+
+function SearchBar({isHided,name,handleOnSubmit, onChange}:{isHided:boolean,name?:string,category?:string,handleOnSubmit:()=>void, onChange?:ChangeEventHandler}) {
 
     
     return (
