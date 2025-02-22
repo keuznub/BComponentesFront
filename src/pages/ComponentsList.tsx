@@ -6,16 +6,30 @@ import { Product } from '../models/Product'
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom'
 import PagingNav from '../components/PagingNav'
 import { useAuth } from '../contexts/AuthContext'
+import SearchBar from '../components/SearchBar'
+import { useMotionValueEvent, useScroll } from 'motion/react'
 
 
 
 function ProductList() {
   const [products, setProducts] = useState<Product[]>([])
   const [loading, setLoading] = useState(true)
+  const [isHidedSearchBar, setIsHidedSearchBar] = useState(false)
   const [productCount,setProductCount] = useState<number>(0)
   const [queryParams] = useSearchParams()
+  const [nameSearch,setNameSearch] = useState("")
+  const [categorySearch,setCategorySearch] = useState("")
   const name = queryParams.get("name") || ""
   const page = queryParams.get("page") || 0
+  const { scrollY } = useScroll()
+  const [scrollDirection, setScrollDirection] = useState("down")
+
+  useMotionValueEvent(scrollY, "change", (current) => {
+    const diff = current - (scrollY.getPrevious()||0);
+    (diff>0&&scrollDirection=="down")?setIsHidedSearchBar(true):setIsHidedSearchBar(false)
+    setScrollDirection(diff > 0 ? "down" : "up")
+  })
+
   const location = useLocation()
   const navigate = useNavigate()
   
@@ -23,7 +37,7 @@ function ProductList() {
   useEffect(() => {
     setLoading(true)
     const productsStorage = sessionStorage.getItem(`page=${page}`)
-    if(productsStorage){
+    if(productsStorage&&!name){
       const productsParsed : {products:Product[], count:number} = JSON.parse(productsStorage)
       setProducts(productsParsed.products)
       setProductCount(productsParsed.count)
@@ -34,7 +48,7 @@ function ProductList() {
     .then(e=>{
       setProducts(e.products)
       setProductCount(e.count)
-      sessionStorage.setItem(`page=${page}`,JSON.stringify(e))
+      !name&&sessionStorage.setItem(`page=${page}`,JSON.stringify(e))
     })
     .catch(e=>{toast.error(e.status+" "+e.message)
       if(e.status==500||e.status==403){
@@ -44,8 +58,13 @@ function ProductList() {
     })
     .finally(()=>{setLoading(false);
     })
-    
   }, [location])
+
+  const handleOnSubmit = ()=>{
+      const params = new URLSearchParams(location.search)
+      params.set("name",nameSearch)
+  }
+
 
 
 
@@ -57,12 +76,15 @@ function ProductList() {
   </div>
 
   return <>
+    <div className='relative'>
+    <SearchBar handleOnSubmit={handleOnSubmit} name={nameSearch} category={categorySearch} isHided={isHidedSearchBar}/>
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 place-items-center gap-10">
       {products?.map((product,index) => <ProductCard key={index} product={product}/>)}
     </div>
 
     <div className='flex flex-row justify-center mt-8'>
       <PagingNav productCount={productCount}/>
+    </div>
     </div>
   </>
 }
