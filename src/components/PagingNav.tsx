@@ -8,10 +8,10 @@ function PagingNav({ productCount, maxPagesNumber = 6 }: { productCount: number,
     const PAGE_SIZE = 8
     const maxPage = Math.floor(productCount / PAGE_SIZE)
     const navigate = useNavigate()
-
     const handlePage = (num: number) => {
         params.set('page', num.toString())
         navigate({ search: params.toString() })
+        window.scrollTo({top:0,behavior:"smooth"})
     }
 
 

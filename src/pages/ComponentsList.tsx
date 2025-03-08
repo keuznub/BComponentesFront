@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { ChangeEvent, FormEvent, useEffect, useState } from 'react'
 import ProductCard from '../components/ProductCard'
 import ProductService from '../services/productService'
 import toast from 'react-hot-toast'
@@ -11,15 +11,17 @@ import { useMotionValueEvent, useScroll } from 'motion/react'
 
 
 
+
 function ProductList() {
   const [products, setProducts] = useState<Product[]>([])
   const [loading, setLoading] = useState(true)
   const [isHidedSearchBar, setIsHidedSearchBar] = useState(false)
   const [productCount,setProductCount] = useState<number>(0)
   const [queryParams] = useSearchParams()
-  const [nameSearch] = useState("")
+  const [nameSearch,setNameSearch] = useState("")
   const [categorySearch] = useState("")
   const name = queryParams.get("name") || ""
+  const category = queryParams.get("category") || ""
   const page = queryParams.get("page") || 0
   const { scrollY } = useScroll()
   const [scrollDirection, setScrollDirection] = useState("down")
@@ -37,18 +39,19 @@ function ProductList() {
   useEffect(() => {
     setLoading(true)
     const productsStorage = sessionStorage.getItem(`page=${page}`)
-    if(productsStorage&&!name){
+    if(productsStorage&&!name&&!category){
       const productsParsed : {products:Product[], count:number} = JSON.parse(productsStorage)
       setProducts(productsParsed.products)
       setProductCount(productsParsed.count)
       setLoading(false)
       return
     }
-    ProductService.getAll(+page,name)
+    
+    ProductService.getAll(+page,name,category)
     .then(e=>{
       setProducts(e.products)
       setProductCount(e.count)
-      !name&&sessionStorage.setItem(`page=${page}`,JSON.stringify(e))
+      !name&&!category&&sessionStorage.setItem(`page=${page}`,JSON.stringify(e))
     })
     .catch(e=>{toast.error(e.status+" "+e.message)
       if(e.status==500||e.status==403){
@@ -58,11 +61,20 @@ function ProductList() {
     })
     .finally(()=>{setLoading(false);
     })
+
   }, [location])
 
-  const handleOnSubmit = ()=>{
+  const handleOnSubmit = (e:FormEvent)=>{
+      e.preventDefault();
       const params = new URLSearchParams(location.search)
-      params.set("name",nameSearch)
+      nameSearch?params.set("name",nameSearch):params.delete("name")
+      params.set("page","0")
+      navigate({ search: params.toString()})
+      window.scrollTo({top:0,behavior:"smooth"})
+  }
+
+  const handleOnChange = (e:ChangeEvent<HTMLInputElement>)=>{
+      setNameSearch(e.target.value)
   }
 
 
@@ -77,7 +89,7 @@ function ProductList() {
 
   return <>
     <div className='relative'>
-    <SearchBar handleOnSubmit={handleOnSubmit} name={nameSearch} category={categorySearch} isHided={isHidedSearchBar}/>
+    <SearchBar handleOnSubmit={handleOnSubmit} onChange={handleOnChange} name={nameSearch} category={categorySearch} isHided={isHidedSearchBar}/>
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 place-items-center gap-10">
       {products?.map((product,index) => <ProductCard key={index} product={product}/>)}
     </div>
