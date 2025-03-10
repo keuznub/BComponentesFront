@@ -16,7 +16,7 @@ function NewOrder() {
     e.preventDefault()
     
     if(!cart.products) return
-    const orderProductSend : OrderProduct[] = cart.products.map(p=>({idProduct:p.product.id!,quantity:p.quantity}))
+    const orderProductSend : OrderProduct[] = cart.products.map(p=>({idProduct:p.product.id!,quantity:p.quantity})) as OrderProduct[]
     
     OrderService
     .save(orderProductSend)
