@@ -8,6 +8,7 @@ import PagingNav from '../components/PagingNav'
 import { useAuth } from '../contexts/AuthContext'
 import SearchBar from '../components/SearchBar'
 import { useMotionValueEvent, useScroll } from 'motion/react'
+import { CacheAPI } from '../services/Cache API/cacheAPI'
 
 
 
@@ -38,20 +39,23 @@ function ProductList() {
 
   useEffect(() => {
     setLoading(true)
-    const productsStorage = sessionStorage.getItem(`page=${page}`)
-    if(productsStorage&&!name&&!category){
-      const productsParsed : {products:Product[], count:number} = JSON.parse(productsStorage)
-      setProducts(productsParsed.products)
-      setProductCount(productsParsed.count)
+    getProducts()
+  }, [location])
+
+  const getProducts = async ()=>{
+    const cacheResponse = await CacheAPI.getDataURL(location.search)
+    if(cacheResponse){
+      setProducts(cacheResponse.products)
+      setProductCount(cacheResponse.count)
       setLoading(false)
       return
     }
-    
+
     ProductService.getAll(+page,name,category)
     .then(e=>{
       setProducts(e.products)
       setProductCount(e.count)
-      !name&&!category&&sessionStorage.setItem(`page=${page}`,JSON.stringify(e))
+      CacheAPI.putDataURL(location.search,new Response(JSON.stringify(e)))
     })
     .catch(e=>{toast.error(e.status+" "+e.message)
       if(e.status==500||e.status==403){
@@ -62,7 +66,7 @@ function ProductList() {
     .finally(()=>{setLoading(false);
     })
 
-  }, [location])
+  }
 
   const handleOnSubmit = (e:FormEvent)=>{
       e.preventDefault();
