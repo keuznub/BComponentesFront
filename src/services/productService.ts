@@ -6,6 +6,7 @@ export class ProductService{
     static getById = async (id: number) => await fetchAPI(`products/${id}`,"GET")
     static save = async (product: Product,productCategories:number[]) => await fetchAPI(`products`,"POST", {product:product,categories:productCategories})
     static delete = async (id: number) => await fetchAPI(`products/${id}`,"DELETE")
+    static update = async (product: Product,productCategories:number[]) => await fetchAPI(`products/${product.id}`,"PUT",{product:product,categories:productCategories})
 }
 
 export default ProductService

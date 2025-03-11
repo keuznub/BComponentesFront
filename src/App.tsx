@@ -12,8 +12,33 @@ import ForgotPassword from './pages/ForgotPassword'
 import NewOrder from './pages/NewOrder'
 import Profile from './pages/Profile'
 import OrderList from './pages/OrderList'
+import { useEffect } from 'react'
+import UpdateProduct from './pages/UpdateProduct'
+
+
+
+
 
 function App() {
+
+  /*
+  const registerWorker = async () => {
+    if ('serviceWorker' in navigator) {
+      try {
+        const registration = await navigator.serviceWorker.register('/sw.js');
+        console.log('Service worker registration succeeded:', registration);
+      } catch (error) {
+        console.error(`Registration failed with ${error}`);
+      }
+    }
+  };
+  */
+  
+  
+
+  useEffect(()=>{
+    //registerWorker();
+  },[])
 
   return (
     <>
@@ -27,6 +52,7 @@ function App() {
             <Route path="register" element={<Register />} />
             <Route path="products/:id" element={<ProductDetail />} />
             <Route path="products/new" element={<NewProduct />} />
+            <Route path="products/:id/update" element={<UpdateProduct />} />
             <Route path="categories" element={<CategoriesList />} />
             <Route path="categories/new" element={<NewCategory />} />
             <Route path="register/update" element={<ForgotPassword />} />

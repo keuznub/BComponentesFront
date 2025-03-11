@@ -8,7 +8,7 @@ import PagingNav from '../components/PagingNav'
 import { useAuth } from '../contexts/AuthContext'
 import SearchBar from '../components/SearchBar'
 import { useMotionValueEvent, useScroll } from 'motion/react'
-import { CacheAPI } from '../services/Cache API/cacheAPI'
+
 
 
 
@@ -43,19 +43,20 @@ function ProductList() {
   }, [location])
 
   const getProducts = async ()=>{
-    const cacheResponse = await CacheAPI.getDataURL(location.search)
+    /*const cacheResponse = await CacheAPI.getDataURL(location.search)
     if(cacheResponse){
       setProducts(cacheResponse.products)
       setProductCount(cacheResponse.count)
       setLoading(false)
       return
     }
+      */
 
     ProductService.getAll(+page,name,category)
     .then(e=>{
       setProducts(e.products)
       setProductCount(e.count)
-      CacheAPI.putDataURL(location.search,new Response(JSON.stringify(e)))
+      //CacheAPI.putDataURL(location.search,new Response(JSON.stringify(e)))
     })
     .catch(e=>{toast.error(e.status+" "+e.message)
       if(e.status==500||e.status==403){
@@ -77,6 +78,11 @@ function ProductList() {
       window.scrollTo({top:0,behavior:"smooth"})
   }
 
+  const handleOnRemove = (productID:number) => {
+    if(!productID) return
+    ProductService.delete(productID).then(getProducts).catch(e =>{toast.error(e.status + " " + e.message)})
+  }
+
   const handleOnChange = (e:ChangeEvent<HTMLInputElement>)=>{
       setNameSearch(e.target.value)
   }
@@ -95,7 +101,7 @@ function ProductList() {
     <div className='relative'>
     <SearchBar handleOnSubmit={handleOnSubmit} onChange={handleOnChange} name={nameSearch} category={categorySearch} isHided={isHidedSearchBar}/>
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 place-items-center gap-10">
-      {products?.map((product,index) => <ProductCard key={index} product={product}/>)}
+      {products?.map((product,index) => <ProductCard key={index} product={product} handleOnRemove={handleOnRemove}/>)}
     </div>
 
     <div className='flex flex-row justify-center mt-8'>

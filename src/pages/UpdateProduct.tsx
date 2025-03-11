@@ -1,4 +1,4 @@
-import { ChangeEvent, DragEvent, FormEvent, useContext, useEffect, useState } from 'react'
+import { ChangeEvent, FormEvent, useContext, useEffect, useState } from 'react'
 import { CursorProgressContext } from '../contexts/CursorProgressContext'
 import { Product } from '../models/Product'
 import ProductService from '../services/productService'
@@ -8,11 +8,11 @@ import CategoryService from '../services/categoryService'
 import Chip from '../components/Chip'
 import InputComponent from '../components/InputComponent'
 import ButtonComponent from '../components/ButtonComponent'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 
 
 
-function NewProduct() {
+function UpdateProduct() {
 
   const [product, setProduct] = useState<Product>(
     {
@@ -25,32 +25,45 @@ function NewProduct() {
   )
   const navigate = useNavigate()
   const [productCategories,setProductCategories] = useState<number[]>([])
-  const [image, setImage] = useState<File | null>()
+  const [image, setImage] = useState<string | null>()
   const [categories, setCategories] = useState<Category[]>([])
   const { setCursorProgress } = useContext(CursorProgressContext)
-
+  const {id} = useParams()
   useEffect(() => {
+
+    ProductService.getById(Number(id)).then(response=>{
+      setProduct(response)
+      if(!response.categoryProduct) return
+      setProductCategories(response.categoryProduct.map((c:any)=>c.idCategory))
+      console.log(response);
+      
+      setImage(response.image)
+    }).catch(e =>{toast.error(e.status + " " + e.message)})
+    console.log("Param:"+id);
+    
     CategoryService.getAll()
       .then(setCategories)
       .catch(e =>{toast.error(e.status + " " + e.message); if(e.status==500||e.status==403)navigate("/login")})
+
+    
+    
   }, [])
 
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
     setCursorProgress(true)
-    ProductService.save({ ...product, price: +product.price,discount:+product.discount},productCategories)
+    ProductService.update({ ...product, price: +product.price,discount:+product.discount},productCategories)
     .then(e => { toast.success(e.message) })
     .catch(e => toast.error(e.status + " " + e.message))
     .finally(()=>setCursorProgress(false))
-    
-
   }
 
   const handleImageUpload = (event: ChangeEvent<HTMLInputElement>) => {
     if (!event.target.files) return
     const file = event?.target.files[0]
-    setImage(file)
+    const imageAux = URL.createObjectURL(file)
+    setImage(imageAux)
     const reader = new FileReader();
     reader.onloadend = async () => {
       const base64Image = reader.result as string;
@@ -60,25 +73,12 @@ function NewProduct() {
   }
 
 
-  const handleImageUploadDrag = (event: DragEvent<HTMLDivElement> | undefined) => {
-    event?.preventDefault()
-    event?.stopPropagation()
-    if (!event?.dataTransfer) return
-    const file = event?.dataTransfer.files[0]
-    setImage(file)
-    const reader = new FileReader();
-    reader.onloadend = async () => {
-      const base64Image = reader.result as string;
-      setProduct({ ...product, image: base64Image });
-    };
-    reader.readAsDataURL(file)
-  }
 
 
 
 
   const placeHolder = <>
-    <div className="flex flex-col items-center justify-center pt-5 pb-6" onDrop={handleImageUploadDrag}>
+    <div className="flex flex-col items-center justify-center pt-5 pb-6">
       <svg className="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
         <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2" />
       </svg>
@@ -137,19 +137,19 @@ function NewProduct() {
 
       <div className='flex flex-col mt-4 w-full'>
         <label htmlFor="dropzone-file">Image:</label>
-        <div className="flex items-center justify-center w-full" onDrop={handleImageUploadDrag}>
+        <div className="flex items-center justify-center w-full">
           <label htmlFor="dropzone-file" className="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-gray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
-            {(image) ? <img src={URL.createObjectURL(image)} className='object-fill h-60' alt='imagenProduct' /> : placeHolder}
-            <input id="dropzone-file" type="file" className="hidden" onChange={handleImageUpload} onDrop={handleImageUploadDrag} />
+            {(image) ? <img src={image} className='object-fill h-60' alt='imagenProduct' /> : placeHolder}
+            <input id="dropzone-file" type="file" className="hidden" onChange={handleImageUpload} />
           </label>
         </div>
        
       </div>
-      <ButtonComponent type='submit' className='md:col-span-2'>Add Product</ButtonComponent>
+      <ButtonComponent type='submit' className='md:col-span-2'>Update Product</ButtonComponent>
 
 
     </form>
   </>
 }
 
-export default NewProduct
+export default UpdateProduct

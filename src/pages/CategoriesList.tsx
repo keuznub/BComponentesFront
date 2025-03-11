@@ -1,23 +1,31 @@
-import {  useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import CategoryService from '../services/categoryService'
 import { Category } from '../models/Category'
 import Chip from '../components/Chip'
-
+import { useAuth } from '../contexts/AuthContext'
+import img from '../assets/rubbish-bin.svg'
+import toast from 'react-hot-toast'
 
 
 function CategoriesList() {
   const [categories, setCategories] = useState<Category[]>([])
   const [loading, setLoading] = useState(true)
-  
-  
+  const auth = useAuth()
 
-  useEffect(()=>{
+  const handleOnRemove = (id: number) => {
+    CategoryService.delete(id)
+      .then(()=>setCategories(categories.filter(category=>category.id!=id)))
+      .catch(e=>{toast.error(e.status+" "+e.message)})
+  }
+
+
+  useEffect(() => {
     CategoryService.getAll()
-    .then(setCategories)
-    .catch()
-    .finally(()=>setLoading(false))
-  },[])
+      .then(setCategories)
+      .catch(e=>{toast.error(e.status+" "+e.message)})
+      .finally(() => setLoading(false))   
+  }, [])
 
   if (loading) return <div className='flex mx-auto justify-center'>
     <div role="status">
@@ -41,6 +49,9 @@ function CategoriesList() {
             <th scope="col" className="px-6 py-3">
               Color
             </th>
+            {auth.isAdmin && <th scope="col" className="px-6 py-3">
+              Remove
+            </th>}
           </tr>
         </thead>
         <tbody>
@@ -55,13 +66,19 @@ function CategoriesList() {
               <td className=''>
                 {<Chip color={category.color}>&nbsp;&nbsp;</Chip>}
               </td>
+              {auth.isAdmin && <td>
+                <button onClick={()=>category?.id&&handleOnRemove(category.id)} type='button' className='rounded-2xl border-black cursor-pointer'>
+                  <img src={img} alt="Remove" className='w-6 ' />
+                </button>
+              </td>}
+
             </tr>
           )}
         </tbody>
-        
+
       </table>
     </div>
-    
+
   </>
 }
 
